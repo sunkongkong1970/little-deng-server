@@ -1,0 +1,26 @@
+package org.deng.littledengserver.model.dto;
+
+import lombok.Data;
+
+import jakarta.validation.constraints.NotBlank;
+
+@Data
+public class UserDto {
+    @NotBlank
+    private String openid;
+
+    @NotBlank
+    private String userName;
+
+    @NotBlank
+    private String userAvatarUrl;
+
+    @NotBlank
+    private String userRoleName;
+
+    @NotBlank
+    private Long home_id;
+
+    @NotBlank
+    private Boolean isHouseholder;
+}
