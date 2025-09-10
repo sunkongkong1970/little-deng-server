@@ -3,7 +3,7 @@ package org.deng.littledengserver.model.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "home")

@@ -21,9 +21,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private WeChatUtil weChatUtil;
-
 
     @Override
     public Long createUser(UserDto user) {
@@ -55,11 +52,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserEntity> getByCode(String code) {
+    public UserEntity getByCode(String code) {
         if (code == null || code.isEmpty()) {
             throw new BusinessException(ErrorEnum.PARAM_ERROR);
         }
-
 
         return userRepository.findByOpenid(code);
     }

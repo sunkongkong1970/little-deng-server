@@ -1,7 +1,7 @@
 package org.deng.littledengserver.util;
 
 import com.alibaba.fastjson2.JSONObject;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
@@ -80,7 +80,7 @@ public class WeChatUtil {
 
             return JSONObject.parseObject(response, WechatLoginResult.class);
         } catch (Exception e) {
-            throw new BusinessException(ErrorEnum.JS_CODE_2_SESSION_ANALYSIS_ERROR);
+            throw new BusinessException(ErrorEnum.JS_CODE_2_SESSION_ANALYSIS_ERROR.getCode(),ErrorEnum.JS_CODE_2_SESSION_ANALYSIS_ERROR.getMessage()+":"+e.getMessage());
         }
     }
 

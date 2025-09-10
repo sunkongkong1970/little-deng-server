@@ -21,9 +21,9 @@ public class UserController {
         return BaseResult.success(userService.queryUsers(userDto));
     }
 
-    @GetMapping("/code/{code}")
-    public BaseResult<UserEntity> getByOpenid(@PathVariable String code) {
-        return BaseResult.success(userService.getByCode(code).orElse(null));
+    @PostMapping("/code")
+    public BaseResult<UserEntity> getByOpenid(@RequestParam("code") String code) {
+        return BaseResult.success(userService.getByCode(code));
     }
 
     @PostMapping

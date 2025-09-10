@@ -1,7 +1,7 @@
 package org.deng.littledengserver.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
 import org.deng.littledengserver.model.dto.wechat.WeChatLoginResponse;
@@ -11,7 +11,7 @@ import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.UserService;
 import org.deng.littledengserver.service.WechatLoginService;
 import org.deng.littledengserver.util.WeChatUtil;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +23,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
     @Resource
     private WeChatUtil wechatLoginUtil;
     @Resource
-    private StringRedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
     @Resource
     private UserRepository userRepository;
     @Resource
@@ -48,33 +48,34 @@ public class WechatLoginServiceImpl implements WechatLoginService {
         String openid = loginResult.getOpenid();
         String sessionKey = loginResult.getSessionKey();
 
+        //todo
         // 3. 将sessionKey存入Redis，设置过期时间
-        redisTemplate.opsForValue().set(
-                "wechat:session_key:" + openid,
-                sessionKey,
-                SESSION_KEY_EXPIRE_HOURS,
-                TimeUnit.HOURS
-        );
+//        redisTemplate.opsForValue().set(
+//                "wechat:session_key:" + openid,
+//                sessionKey,
+//                SESSION_KEY_EXPIRE_HOURS,
+//                TimeUnit.HOURS
+//        );
 
         // 4. 检查用户是否已存在，不存在则创建新用户
-        UserEntity user = userService.getByCode(openid).get();
+        UserEntity user = userService.getByCode(openid);
         if (user == null) {
-            UserEntity userEntity = new UserEntity();
-            userEntity.setOpenid(openid);
-            userEntity.setUnionid(loginResult.getUnionid());
-            userRepository.save(userEntity);
+            user = new UserEntity();
+            user.setOpenid(openid);
+            user.setUnionid(loginResult.getUnionid());
+            userRepository.save(user);
         }
 
         // 5. 生成自定义登录态token
         String token = generateToken(openid);
-
+        //todo
         // 6. 将token与openid关联存储
-        redisTemplate.opsForValue().set(
-                "wechat:token:" + token,
-                openid,
-                TOKEN_EXPIRE_DAYS,
-                TimeUnit.DAYS
-        );
+//        redisTemplate.opsForValue().set(
+//                "wechat:token:" + token,
+//                openid,
+//                TOKEN_EXPIRE_DAYS,
+//                TimeUnit.DAYS
+//        );
 
         // 7. 返回登录结果（不包含sessionKey）
         return new WeChatLoginResponse(token, openid, user.getId());
@@ -85,7 +86,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
      */
     public String getPhoneNumber(String openid, String encryptedData, String iv) {
         // 1. 从Redis获取sessionKey
-        String sessionKey = redisTemplate.opsForValue().get("wechat:session_key:" + openid);
+        String sessionKey = (String) redisTemplate.opsForValue().get("wechat:session_key:" + openid);
         if (sessionKey == null) {
             throw new BusinessException(ErrorEnum.WE_CHAT_LOGIN_OVERTIME);
         }
