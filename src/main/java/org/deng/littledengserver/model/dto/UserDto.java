@@ -19,7 +19,7 @@ public class UserDto {
     private String userRoleName;
 
     @NotBlank
-    private Long home_id;
+    private Long homeId;
 
     @NotBlank
     private Boolean isHouseholder;

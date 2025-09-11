@@ -19,6 +19,9 @@ public class UserEntity extends BaseEntity{
     private String unionid;
 
     @Column(length = 255)
+    private String phoneNum;
+
+    @Column(length = 255)
     private String userName ;
 
     @Column(length = 255)
@@ -28,7 +31,7 @@ public class UserEntity extends BaseEntity{
     private String userRoleName ;
 
     @Column(length = 255)
-    private Long home_id;
+    private Long homeId;
 
     @Column(length = 255)
     private Boolean isHouseholder ;

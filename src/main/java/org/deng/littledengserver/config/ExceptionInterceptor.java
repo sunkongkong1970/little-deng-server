@@ -2,8 +2,12 @@ package org.deng.littledengserver.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+@RestControllerAdvice
 public class ExceptionInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionInterceptor.class);
@@ -23,6 +27,7 @@ public class ExceptionInterceptor {
      * 处理其他未捕获的异常
      */
     @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public BaseResult<Void> handleOtherExceptions(Exception e) {
         // 记录异常信息
         logger.error("系统异常: {}", e.getMessage(), e);

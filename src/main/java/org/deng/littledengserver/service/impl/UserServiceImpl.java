@@ -6,7 +6,7 @@ import org.deng.littledengserver.model.dto.UserDto;
 import org.deng.littledengserver.model.entity.UserEntity;
 import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.UserService;
-import org.deng.littledengserver.util.WeChatUtil;
+import org.deng.littledengserver.util.TokenCacheUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -14,24 +14,12 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Override
-    public Long createUser(UserDto user) {
-        if (user == null) {
-            throw new BusinessException(ErrorEnum.PARAM_ERROR);
-        }
-        UserEntity entity = new UserEntity();
-        BeanUtils.copyProperties(user, entity);
-        UserEntity saved = userRepository.save(entity);
-        return saved.getId();
-    }
 
     @Override
     public List<UserEntity> queryUsers(UserDto query) {
@@ -58,5 +46,23 @@ public class UserServiceImpl implements UserService {
         }
 
         return userRepository.findByOpenid(code);
+    }
+
+    @Override
+    public UserDto getByToken(String token) {
+        if (token == null || token.isEmpty()) {
+            throw new BusinessException(ErrorEnum.PARAM_ERROR);
+        }
+
+        String openId = TokenCacheUtil.getOpenidByToken(token);
+        if (openId == null || openId.isEmpty()) {
+            throw new BusinessException(ErrorEnum.WE_CHAT_LOGIN_OVERTIME);
+        }
+
+        UserEntity user = userRepository.findByOpenid(openId);
+        UserDto userInfoDto = new UserDto();
+        BeanUtils.copyProperties(user, userInfoDto);
+
+        return userInfoDto;
     }
 }

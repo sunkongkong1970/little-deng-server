@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -26,8 +26,9 @@ public class UserController {
         return BaseResult.success(userService.getByCode(code));
     }
 
-    @PostMapping
-    public BaseResult<Long> createUser(@Validated @RequestBody UserDto userDto) {
-        return BaseResult.success(userService.createUser(userDto));
+    @PostMapping("/token")
+    public BaseResult<UserDto> getByToken(@RequestParam("token") String token) {
+        return BaseResult.success(userService.getByToken(token));
     }
+
 }

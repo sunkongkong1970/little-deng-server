@@ -6,11 +6,9 @@ import org.deng.littledengserver.model.entity.UserEntity;
 import java.util.List;
 
 public interface UserService {
-
-    Long createUser(UserDto user);
-
     List<UserEntity> queryUsers(UserDto query);
 
     UserEntity getByCode(String openid);
 
+    UserDto getByToken(String token);
 }
