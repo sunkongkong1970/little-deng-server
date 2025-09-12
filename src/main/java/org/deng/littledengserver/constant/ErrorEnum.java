@@ -1,5 +1,8 @@
 package org.deng.littledengserver.constant;
 
+import lombok.Getter;
+
+@Getter
 public enum ErrorEnum {
     // 通用错误
     SYSTEM_ERROR(1, "系统异常"),
@@ -18,6 +21,9 @@ public enum ErrorEnum {
     USER_NOT_LOGIN(2002, "用户未登录"),
     USER_AUTH_FAILED(2003, "用户认证失败"),
     USER_PERMISSION_DENIED(2004, "用户权限不足"),
+
+    // 家庭相关错误
+    HOME_CODE_OVERTIME(2100, "邀请码已过期"),
     ;
 
 
@@ -29,11 +35,4 @@ public enum ErrorEnum {
         this.message = message;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

@@ -2,18 +2,18 @@ package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
 import org.deng.littledengserver.model.dto.UserDto;
+import org.deng.littledengserver.model.dto.UserUpdateDto;
 import org.deng.littledengserver.model.entity.UserEntity;
 import org.deng.littledengserver.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    @Autowired
+    @Resource
     private UserService userService;
 
     @PostMapping("/query")
@@ -21,14 +21,14 @@ public class UserController {
         return BaseResult.success(userService.queryUsers(userDto));
     }
 
-    @PostMapping("/code")
-    public BaseResult<UserEntity> getByOpenid(@RequestParam("code") String code) {
-        return BaseResult.success(userService.getByCode(code));
-    }
-
     @PostMapping("/token")
     public BaseResult<UserDto> getByToken(@RequestParam("token") String token) {
-        return BaseResult.success(userService.getByToken(token));
+        return BaseResult.success(userService.getUserDtoByToken(token));
+    }
+
+    @PostMapping("/update")
+    public BaseResult<String> updateUser(@RequestBody UserUpdateDto userUpdateDto) {
+        return BaseResult.success(userService.updateUser(userUpdateDto));
     }
 
 }

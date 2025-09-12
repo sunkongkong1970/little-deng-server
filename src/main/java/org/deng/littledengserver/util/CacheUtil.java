@@ -8,17 +8,39 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class TokenCacheUtil {
+public class CacheUtil {
     // 初始化Caffeine缓存，设置2小时过期
     private static final Cache<String, String> tokenCache = Caffeine.newBuilder()
             .maximumSize(10000)  // 最大缓存数量
-            .expireAfterWrite(7, TimeUnit.DAYS)  // 2小时过期
+            .expireAfterWrite(7, TimeUnit.DAYS)  // 7天过期
             .build();
 
     private static final Cache<String, String> sessionCache = Caffeine.newBuilder()
             .maximumSize(10000)  // 最大缓存数量
             .expireAfterWrite(2, TimeUnit.HOURS)  // 2小时过期
             .build();
+
+    private static final Cache<String, String> homeCodeCache = Caffeine.newBuilder()
+            .maximumSize(10000)  // 最大缓存数量
+            .expireAfterWrite(7, TimeUnit.DAYS)  // 7天过期
+            .build();
+
+    private static final Cache<String, Long> homeIdCache = Caffeine.newBuilder()
+            .maximumSize(10000)  // 最大缓存数量
+            .expireAfterWrite(7, TimeUnit.DAYS)  // 7天过期
+            .build();
+
+    public static String generateHomeCode(String token,Long homeId) {
+        String homeCodeExist = homeCodeCache.getIfPresent(token);
+        if (homeCodeExist != null) {
+            return homeCodeExist;
+        }
+
+        String homeCode = UUID.randomUUID().toString().split("-")[0];
+        homeCodeCache.put(token, homeCode);
+
+        return homeCode;
+    }
 
     // 生成token并存储到缓存
     public static String generateToken(String openid,String sessionKey) {
@@ -31,6 +53,26 @@ public class TokenCacheUtil {
         if (!sessionKey.isEmpty()){
             sessionCache.put(token, sessionKey);
         }
+        return token;
+    }
+
+    public static Long getHomeId(String homeCode) {
+        return homeIdCache.getIfPresent(homeCode);
+    }
+
+    /**
+     * 获取token并自动续期
+     * 实现思路：先获取token，若存在则重新存入以刷新过期时间
+     */
+    public static String getTokenAndRenew(String token) {
+        // 获取当前token
+        String openid = tokenCache.getIfPresent(token);
+
+        // 如果token存在，则重新存入以刷新过期时间（续期）
+        if (openid != null) {
+            tokenCache.put(token, openid);
+        }
+
         return token;
     }
 

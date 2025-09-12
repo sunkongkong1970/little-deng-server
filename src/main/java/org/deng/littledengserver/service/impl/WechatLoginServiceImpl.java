@@ -12,13 +12,10 @@ import org.deng.littledengserver.model.entity.UserEntity;
 import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.UserService;
 import org.deng.littledengserver.service.WechatLoginService;
-import org.deng.littledengserver.util.TokenCacheUtil;
+import org.deng.littledengserver.util.CacheUtil;
 import org.deng.littledengserver.util.WeChatUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class WechatLoginServiceImpl implements WechatLoginService {
@@ -42,7 +39,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
         String openid = loginResult.getOpenid();
         String sessionKey = loginResult.getSessionKey();
 
-        String token = TokenCacheUtil.generateToken(openid, sessionKey);
+        String token = CacheUtil.generateToken(openid, sessionKey);
 
         // 4. 检查用户是否已存在，不存在则创建新用户
         UserEntity user = userService.getByCode(openid);
@@ -62,7 +59,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
      */
     public String getPhoneNumber(String openid, String encryptedData, String iv) {
         // 1. 从Redis获取sessionKey
-        String sessionKey =TokenCacheUtil.getSessionKeyByOpenid(openid);
+        String sessionKey = CacheUtil.getSessionKeyByOpenid(openid);
         if (sessionKey == null) {
             throw new BusinessException(ErrorEnum.WE_CHAT_LOGIN_OVERTIME);
         }
