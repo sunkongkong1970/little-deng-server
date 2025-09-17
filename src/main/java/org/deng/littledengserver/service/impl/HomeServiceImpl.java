@@ -2,7 +2,11 @@ package org.deng.littledengserver.service.impl;
 
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
+import org.deng.littledengserver.model.dto.CreateHomeDto;
+import org.deng.littledengserver.model.entity.HomeEntity;
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.repository.HomeRepository;
+import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.HomeService;
 import org.deng.littledengserver.service.UserService;
 import org.deng.littledengserver.util.CacheUtil;
@@ -14,6 +18,10 @@ import javax.annotation.Resource;
 public class HomeServiceImpl implements HomeService {
     @Resource
     UserService userService;
+    @Resource
+    HomeRepository homeRepository;
+    @Resource
+    UserRepository userRepository;
 
     @Override
     public String generateHomeCode(String token) {
@@ -24,5 +32,21 @@ public class HomeServiceImpl implements HomeService {
         }
 
         return CacheUtil.generateHomeCode(token, user.getHomeId());
+    }
+
+    @Override
+    public Long createHome(CreateHomeDto createHomeDto) {
+        UserEntity user = userService.getByToken(createHomeDto.getToken());
+        HomeEntity homeEntity = new HomeEntity();
+        homeEntity.setHomeName(createHomeDto.getHomeName());
+        homeEntity.setHouseholderUserId(user.getId());
+
+        Long homeId = homeRepository.save(homeEntity).getId();
+
+        user.setHomeId(homeId);
+        user.setIsHouseholder(true);
+        userRepository.save(user);
+
+        return homeId;
     }
 }

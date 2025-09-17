@@ -3,7 +3,7 @@ package org.deng.littledengserver.service.impl;
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
 import org.deng.littledengserver.model.dto.UserDto;
-import org.deng.littledengserver.model.dto.UserUpdateDto;
+import org.deng.littledengserver.model.dto.UserJoinHomeDto;
 import org.deng.littledengserver.model.entity.UserEntity;
 import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.UserService;
@@ -73,27 +73,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateUser(UserUpdateDto userUpdateDto) {
-        if (CacheUtil.getOpenidByToken(userUpdateDto.getToken()) == null) {
+    public String userJoinHome(UserJoinHomeDto userJoinHomeDto) {
+        if (CacheUtil.getOpenidByToken(userJoinHomeDto.getToken()) == null) {
             throw new BusinessException(ErrorEnum.WE_CHAT_LOGIN_OVERTIME);
         }
 
-        Long homeId = CacheUtil.getHomeId(userUpdateDto.getHomeCode());
+        Long homeId = CacheUtil.getHomeId(userJoinHomeDto.getHomeCode());
         if (homeId == null) {
             throw new BusinessException(ErrorEnum.HOME_CODE_OVERTIME);
         }
 
-        UserEntity user = userRepository.findByOpenid(CacheUtil.getOpenidByToken(userUpdateDto.getToken()));
+        UserEntity user = userRepository.findByOpenid(CacheUtil.getOpenidByToken(userJoinHomeDto.getToken()));
 
         if (user == null) {
             throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
 
-        BeanUtils.copyProperties(userUpdateDto, user);
+        BeanUtils.copyProperties(userJoinHomeDto, user);
 
         user.setHomeId(user.getHomeId());
         userRepository.save(user);
 
-        return CacheUtil.getTokenAndRenew(userUpdateDto.getToken());
+        return CacheUtil.getTokenAndRenew(userJoinHomeDto.getToken());
     }
 }

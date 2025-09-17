@@ -11,8 +11,6 @@ import javax.persistence.*;
 @Data
 public class HomeEntity extends BaseEntity{
     @Column
-    private String homeCode;
-    @Column
     private String homeName;
     @Column
     private Long householderUserId;

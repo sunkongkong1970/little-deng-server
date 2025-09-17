@@ -1,6 +1,8 @@
 package org.deng.littledengserver.model.dto;
 
 import lombok.Data;
+import org.deng.littledengserver.config.dict.Dict;
+import org.deng.littledengserver.constant.DictConstant;
 
 import javax.validation.constraints.NotBlank;
 
@@ -16,7 +18,8 @@ public class UserDto {
     private String userAvatarUrl;
 
     @NotBlank
-    private String userRoleName;
+    @Dict(type = DictConstant.ROLE)
+    private String userRole;
 
     @NotBlank
     private Boolean isHouseholder;

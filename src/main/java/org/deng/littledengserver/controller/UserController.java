@@ -2,7 +2,7 @@ package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
 import org.deng.littledengserver.model.dto.UserDto;
-import org.deng.littledengserver.model.dto.UserUpdateDto;
+import org.deng.littledengserver.model.dto.UserJoinHomeDto;
 import org.deng.littledengserver.model.entity.UserEntity;
 import org.deng.littledengserver.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +26,9 @@ public class UserController {
         return BaseResult.success(userService.getUserDtoByToken(token));
     }
 
-    @PostMapping("/update")
-    public BaseResult<String> updateUser(@RequestBody UserUpdateDto userUpdateDto) {
-        return BaseResult.success(userService.updateUser(userUpdateDto));
+    @PostMapping("/joinHome")
+    public BaseResult<String> updateUser(@RequestBody UserJoinHomeDto userJoinHomeDto) {
+        return BaseResult.success(userService.userJoinHome(userJoinHomeDto));
     }
 
 }

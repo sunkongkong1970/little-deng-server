@@ -5,13 +5,13 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class UserUpdateDto {
+public class UserJoinHomeDto {
     @NotBlank
     private String token;
 
     private String userName;
 
-    private String userRoleName;
+    private String userRole;
 
     private String homeCode;
 
