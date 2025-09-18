@@ -45,6 +45,9 @@ public class HomeServiceImpl implements HomeService {
 
         user.setHomeId(homeId);
         user.setIsHouseholder(true);
+        user.setUserName(createHomeDto.getUserName());
+        user.setUserRole(createHomeDto.getUserRole());
+        user.setUserAvatarBase64(createHomeDto.getAvatarBase64());
         userRepository.save(user);
 
         return homeId;

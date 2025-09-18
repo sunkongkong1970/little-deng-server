@@ -24,11 +24,11 @@ public class UserEntity extends BaseEntity{
     @Column(length = 255)
     private String userName ;
 
-    @Column(length = 255)
-    private String userAvatarUrl ;
+    @Column(columnDefinition = "TEXT")
+    private String userAvatarBase64 ;
 
     @Column(length = 255)
-    private String userRoleName ;
+    private String userRole ;
 
     @Column(length = 255)
     private Long homeId;

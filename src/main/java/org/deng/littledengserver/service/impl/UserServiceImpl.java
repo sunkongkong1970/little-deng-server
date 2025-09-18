@@ -91,7 +91,8 @@ public class UserServiceImpl implements UserService {
 
         BeanUtils.copyProperties(userJoinHomeDto, user);
 
-        user.setHomeId(user.getHomeId());
+        user.setHomeId(homeId);
+        user.setUserAvatarBase64(userJoinHomeDto.getAvatarBase64());
         userRepository.save(user);
 
         return CacheUtil.getTokenAndRenew(userJoinHomeDto.getToken());

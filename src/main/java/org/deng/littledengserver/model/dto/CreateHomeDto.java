@@ -14,4 +14,6 @@ public class CreateHomeDto {
     private String userRole;
 
     private String homeName;
+
+    private String avatarBase64;
 }

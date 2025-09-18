@@ -15,4 +15,5 @@ public class UserJoinHomeDto {
 
     private String homeCode;
 
+    private String avatarBase64;
 }
