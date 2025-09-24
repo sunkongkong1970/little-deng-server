@@ -24,6 +24,13 @@ public enum ErrorEnum {
 
     // 家庭相关错误
     HOME_CODE_OVERTIME(2100, "邀请码已过期"),
+    HOME_NOT_EXIST(2101, "家庭不存在"),
+
+    //图片上传
+    IMAGE_UPLOAD_ERROR(2200,"图片上传失败"),
+    MKDIR_FAILED(2201,"创建文件夹失败"),
+    NEED_IMAGE(2202,"请上传图片"),
+    GET_IMAGE_NAME_FAIL(2203,"获取图片文件名失败")
     ;
 
 
