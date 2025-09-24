@@ -1,0 +1,65 @@
+server:
+  servlet:
+    context-path: /little-deng-server
+  port: 8080
+
+spring:
+  profiles:
+    # 配置文件本地存放，线上使用环境变量导入
+    include: local
+  application:
+    # 应用服务 WEB 访问端口
+    name: little-deng-service
+  datasource:
+    # 数据库连接信息
+    url: jdbc:mysql://62.234.15.35:3306/deng_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: mysql_deng
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      # 连接池配置 (使用HikariCP，Spring Boot默认)
+      # 连接最大存活时间10分钟(600000毫秒)，小于MySQL的wait_timeout(默认8小时)
+      max-lifetime: 3600000
+      # 连接空闲时间5分钟
+      idle-timeout: 3600000
+      connection-test-query: SELECT 1  # 测试连接是否有效的SQL
+      # 验证连接超时时间
+      validation-timeout: 3000
+  # JPA配置
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    database: mysql
+  servlet:
+    multipart:
+      # 单个文件的最大限制
+      max-file-size: 10MB
+      # 整个请求的最大限制
+      max-request-size: 10MB
+
+# log
+logging:
+  level:
+    org:
+      hibernate:
+        # 日志配置
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+# 图片上传配置
+image:
+  compress:
+    # 压缩后的图片质量，0-1之间，1表示最高质量
+    quality: 0.8
+    # 压缩后的图片最大宽度
+    max-width: 1920
+    # 压缩后的图片最大高度
+    max-height: 1080

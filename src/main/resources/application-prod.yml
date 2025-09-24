@@ -1,0 +1,19 @@
+# 生产环境日志级别调整
+logging:
+  level:
+    root: WARN
+    com.example: INFO
+
+tencent:
+  # COS
+  cos:
+    secret-id: ${COS_SECRET_ID}
+    secret-key: ${COS_SECRET_KEY}
+    region: ${COS_REGION:ap-beijing}
+    bucket-name: ${COS_BUCKET_NAME}
+    app-id: ${COS_APP_ID}
+
+# 微信小程序配置
+wechat:
+  appid: ${WECHAT_APPID}
+  secret: ${WECHAT_SECRET}

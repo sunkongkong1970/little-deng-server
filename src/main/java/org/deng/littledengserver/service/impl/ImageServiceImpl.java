@@ -33,10 +33,6 @@ public class ImageServiceImpl implements ImageService {
     @Resource
     private CosUtil cosUtil;
 
-    // 图片保存根路径，可以在配置文件中配置
-    @Value("${image.upload.path:D:/code/test/dengImg}")
-    private String imageRootPath;
-
     // 压缩后的图片质量，0-1之间，1表示最高质量
     @Value("${image.compress.quality:0.8}")
     private double compressQuality;
