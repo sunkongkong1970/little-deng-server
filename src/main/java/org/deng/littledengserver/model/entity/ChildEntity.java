@@ -27,6 +27,8 @@ public class ChildEntity extends BaseEntity{
     private String childZodiac;
     @Column
     private String childCoverImg;
+    @Column
+    private String childCoverCroppedImg;
     @Column(length = 2048)
     private String childContent;
 }
