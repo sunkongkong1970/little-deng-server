@@ -31,7 +31,7 @@ public class HomeServiceImpl implements HomeService {
             throw new BusinessException(ErrorEnum.USER_PERMISSION_DENIED);
         }
 
-        return CacheUtil.generateHomeCode(token, user.getHomeId());
+        return CacheUtil.generateHomeCode(token);
     }
 
     @Override

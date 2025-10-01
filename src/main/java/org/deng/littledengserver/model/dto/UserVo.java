@@ -1,11 +1,14 @@
 package org.deng.littledengserver.model.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.deng.littledengserver.config.dict.Dict;
+import org.deng.littledengserver.config.dict.DictTranslatable;
 import org.deng.littledengserver.constant.DictConstant;
 
 @Data
-public class UserVo {
+@EqualsAndHashCode(callSuper = true)
+public class UserVo extends DictTranslatable {
     private String openid;
 
     private String userName;

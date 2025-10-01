@@ -30,12 +30,7 @@ public class CacheUtil {
             .expireAfterWrite(7, TimeUnit.DAYS)  // 7天过期
             .build();
 
-    public static String generateHomeCode(String token,Long homeId) {
-        String homeCodeExist = homeCodeCache.getIfPresent(token);
-        if (homeCodeExist != null) {
-            return homeCodeExist;
-        }
-
+    public static String generateHomeCode(String token) {
         String homeCode = UUID.randomUUID().toString().split("-")[0];
         homeCodeCache.put(token, homeCode);
 

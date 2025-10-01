@@ -13,7 +13,7 @@ public class HomeController {
     @Resource
     HomeService homeService;
 
-    @PostMapping("/generateCode")
+    @GetMapping("/generateCode")
     public BaseResult<String> generateHomeCode(@RequestParam("token") String token){
         return BaseResult.success(homeService.generateHomeCode(token));
     }

@@ -48,6 +48,21 @@ public class DictAspect {
             return;
         }
 
+        // 处理BaseResult包装类，获取其中的data字段进行处理
+        if (result.getClass().getName().contains("BaseResult")) {
+            try {
+                Field dataField = findField(result.getClass(), "data");
+                if (dataField != null) {
+                    dataField.setAccessible(true);
+                    Object data = dataField.get(result);
+                    handleResult(data);
+                }
+            } catch (Exception e) {
+                log.error("handle BaseResult error: {}", e.getMessage());
+            }
+            return;
+        }
+
         // 处理集合
         if (result instanceof Collection<?>) {
             ((Collection<?>) result).forEach(this::handleResult);
@@ -76,9 +91,10 @@ public class DictAspect {
         Class<?> clazz = obj.getClass();
         // 获取所有字段（包括父类字段）
         List<Field> fields = new ArrayList<>();
-        while (clazz != null && clazz != Object.class) {
-            fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
-            clazz = clazz.getSuperclass();
+        Class<?> tempClazz = clazz;
+        while (tempClazz != null && tempClazz != Object.class) {
+            fields.addAll(Arrays.asList(tempClazz.getDeclaredFields()));
+            tempClazz = tempClazz.getSuperclass();
         }
 
         // 处理每个字段
@@ -91,14 +107,26 @@ public class DictAspect {
                     field.setAccessible(true);
                     Object fieldValue = field.get(obj);
 
+                    // 如果字段值为null，跳过
+                    if (fieldValue == null) {
+                        continue;
+                    }
+
                     // 获取字典值
                     String dictValue = dictService.getDict(dict.type(), (String) fieldValue);
 
-                    // 设置对应的名称字段
+                    // 构造字典翻译字段名
                     String nameFieldName = field.getName() + dict.suffix();
-                    setFieldValue(obj, nameFieldName, dictValue);
+
+                    // 优先使用 DictTranslatable 基类的动态字段
+                    if (obj instanceof DictTranslatable) {
+                        ((DictTranslatable) obj).addDictField(nameFieldName, dictValue);
+                    } else {
+                        // 兼容旧方式：尝试设置预定义的字段
+                        setFieldValue(obj, nameFieldName, dictValue);
+                    }
                 } catch (Exception e) {
-                    log.error("trans dict error,message:{}", e.getMessage());
+                    log.error("trans dict error, field: {}, message: {}", field.getName(), e.getMessage());
                 }
             }
         }
