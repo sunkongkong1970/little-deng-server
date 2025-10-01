@@ -2,7 +2,7 @@ package org.deng.littledengserver.service.impl;
 
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
-import org.deng.littledengserver.model.dto.CreateHomeDto;
+import org.deng.littledengserver.model.dto.CreateHomeVo;
 import org.deng.littledengserver.model.entity.HomeEntity;
 import org.deng.littledengserver.model.entity.UserEntity;
 import org.deng.littledengserver.repository.HomeRepository;
@@ -35,19 +35,19 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public Long createHome(CreateHomeDto createHomeDto) {
-        UserEntity user = userService.getByToken(createHomeDto.getToken());
+    public Long createHome(CreateHomeVo createHomeVo) {
+        UserEntity user = userService.getByToken(createHomeVo.getToken());
         HomeEntity homeEntity = new HomeEntity();
-        homeEntity.setHomeName(createHomeDto.getHomeName());
+        homeEntity.setHomeName(createHomeVo.getHomeName());
         homeEntity.setHouseholderUserId(user.getId());
 
         Long homeId = homeRepository.save(homeEntity).getId();
 
         user.setHomeId(homeId);
         user.setIsHouseholder(true);
-        user.setUserName(createHomeDto.getUserName());
-        user.setUserRole(createHomeDto.getUserRole());
-        user.setUserAvatarBase64(createHomeDto.getAvatarBase64());
+        user.setUserName(createHomeVo.getUserName());
+        user.setUserRole(createHomeVo.getUserRole());
+        user.setUserAvatarBase64(createHomeVo.getAvatarBase64());
         userRepository.save(user);
 
         return homeId;

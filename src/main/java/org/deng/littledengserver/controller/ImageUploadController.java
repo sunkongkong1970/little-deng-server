@@ -1,17 +1,14 @@
 package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
-import org.deng.littledengserver.config.BusinessException;
-import org.deng.littledengserver.constant.ErrorEnum;
 import org.deng.littledengserver.constant.ImageTypeEnum;
-import org.deng.littledengserver.model.entity.UserEntity;
 import org.deng.littledengserver.service.ImageService;
-import org.deng.littledengserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/image")

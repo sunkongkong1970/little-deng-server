@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class UserJoinHomeDto {
+public class CreateHomeVo {
     @NotBlank
     private String token;
 
@@ -13,7 +13,7 @@ public class UserJoinHomeDto {
 
     private String userRole;
 
-    private String homeCode;
+    private String homeName;
 
     private String avatarBase64;
 }

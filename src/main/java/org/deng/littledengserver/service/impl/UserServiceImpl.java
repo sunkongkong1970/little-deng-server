@@ -2,8 +2,8 @@ package org.deng.littledengserver.service.impl;
 
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
-import org.deng.littledengserver.model.dto.UserDto;
-import org.deng.littledengserver.model.dto.UserJoinHomeDto;
+import org.deng.littledengserver.model.dto.UserJoinHomeVo;
+import org.deng.littledengserver.model.dto.UserVo;
 import org.deng.littledengserver.model.entity.UserEntity;
 import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.UserService;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public List<UserEntity> queryUsers(UserDto query) {
+    public List<UserEntity> queryUsers(UserVo query) {
         if (query == null) {
             throw new BusinessException(ErrorEnum.PARAM_ERROR);
         }
@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserDtoByToken(String token) {
+    public UserVo getUserDtoByToken(String token) {
         UserEntity user  = getByToken(token);
-        UserDto userInfoDto = new UserDto();
+        UserVo userInfoDto = new UserVo();
         BeanUtils.copyProperties(user, userInfoDto);
 
         return userInfoDto;
@@ -73,28 +73,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String userJoinHome(UserJoinHomeDto userJoinHomeDto) {
-        if (CacheUtil.getOpenidByToken(userJoinHomeDto.getToken()) == null) {
+    public String userJoinHome(UserJoinHomeVo userJoinHomeVo) {
+        if (CacheUtil.getOpenidByToken(userJoinHomeVo.getToken()) == null) {
             throw new BusinessException(ErrorEnum.WE_CHAT_LOGIN_OVERTIME);
         }
 
-        Long homeId = CacheUtil.getHomeId(userJoinHomeDto.getHomeCode());
+        Long homeId = CacheUtil.getHomeId(userJoinHomeVo.getHomeCode());
         if (homeId == null) {
             throw new BusinessException(ErrorEnum.HOME_CODE_OVERTIME);
         }
 
-        UserEntity user = userRepository.findByOpenid(CacheUtil.getOpenidByToken(userJoinHomeDto.getToken()));
+        UserEntity user = userRepository.findByOpenid(CacheUtil.getOpenidByToken(userJoinHomeVo.getToken()));
 
         if (user == null) {
             throw new BusinessException(ErrorEnum.USER_NOT_EXIST);
         }
 
-        BeanUtils.copyProperties(userJoinHomeDto, user);
+        BeanUtils.copyProperties(userJoinHomeVo, user);
 
         user.setHomeId(homeId);
-        user.setUserAvatarBase64(userJoinHomeDto.getAvatarBase64());
+        user.setUserAvatarBase64(userJoinHomeVo.getAvatarBase64());
         userRepository.save(user);
 
-        return CacheUtil.getTokenAndRenew(userJoinHomeDto.getToken());
+        return CacheUtil.getTokenAndRenew(userJoinHomeVo.getToken());
     }
 }

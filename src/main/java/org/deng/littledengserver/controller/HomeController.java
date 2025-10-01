@@ -1,7 +1,7 @@
 package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
-import org.deng.littledengserver.model.dto.CreateHomeDto;
+import org.deng.littledengserver.model.dto.CreateHomeVo;
 import org.deng.littledengserver.service.HomeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ public class HomeController {
     }
 
     @PostMapping("/createHome")
-    public BaseResult<Long> createHome(@RequestBody CreateHomeDto createHomeDto){
-        return BaseResult.success(homeService.createHome(createHomeDto));
+    public BaseResult<Long> createHome(@RequestBody CreateHomeVo createHomeVo) {
+        return BaseResult.success(homeService.createHome(createHomeVo));
     }
 }

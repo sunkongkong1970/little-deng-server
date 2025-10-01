@@ -4,10 +4,8 @@ import lombok.Data;
 import org.deng.littledengserver.config.dict.Dict;
 import org.deng.littledengserver.constant.DictConstant;
 
-import javax.validation.constraints.NotBlank;
-
 @Data
-public class UserDto {
+public class UserVo {
     private String openid;
 
     private String userName;

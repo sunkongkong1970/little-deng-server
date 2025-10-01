@@ -1,17 +1,19 @@
 package org.deng.littledengserver.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "child")
 @EqualsAndHashCode(callSuper = true)
 @Data
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class ChildEntity extends BaseEntity{
     @Column(nullable = false)
     private Long homeId;
@@ -25,6 +27,8 @@ public class ChildEntity extends BaseEntity{
     private LocalDateTime childBirthday;
     @Column
     private String childZodiac;
+    @Column
+    private String childChineseZodiac;
     @Column
     private String childCoverImg;
     @Column
