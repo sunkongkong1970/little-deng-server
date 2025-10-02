@@ -1,8 +1,9 @@
 package org.deng.littledengserver.service;
 
-import org.deng.littledengserver.model.dto.UserJoinHomeVo;
-import org.deng.littledengserver.model.dto.UserVo;
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.model.vo.UserEditVo;
+import org.deng.littledengserver.model.vo.UserJoinHomeVo;
+import org.deng.littledengserver.model.vo.UserVo;
 
 import java.util.List;
 
@@ -16,4 +17,8 @@ public interface UserService {
     UserEntity getByToken(String token);
 
     String userJoinHome(UserJoinHomeVo userJoinHomeVo);
+
+    String getUserAvatar(String token);
+
+    String editUser(UserEditVo userEditVo);
 }

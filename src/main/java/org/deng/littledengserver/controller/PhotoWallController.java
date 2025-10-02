@@ -1,7 +1,7 @@
 package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
-import org.deng.littledengserver.model.dto.CreatePhotoWallVo;
+import org.deng.littledengserver.model.vo.CreatePhotoWallVo;
 import org.deng.littledengserver.service.PhotoWallService;
 import org.springframework.web.bind.annotation.*;
 

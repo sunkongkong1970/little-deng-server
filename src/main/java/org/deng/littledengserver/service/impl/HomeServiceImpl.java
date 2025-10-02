@@ -2,9 +2,9 @@ package org.deng.littledengserver.service.impl;
 
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
-import org.deng.littledengserver.model.dto.CreateHomeVo;
 import org.deng.littledengserver.model.entity.HomeEntity;
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.model.vo.CreateHomeVo;
 import org.deng.littledengserver.repository.HomeRepository;
 import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.HomeService;

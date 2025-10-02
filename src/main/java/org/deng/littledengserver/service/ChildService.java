@@ -1,7 +1,7 @@
 package org.deng.littledengserver.service;
 
-import org.deng.littledengserver.model.dto.AddBabyVo;
 import org.deng.littledengserver.model.entity.ChildEntity;
+import org.deng.littledengserver.model.vo.AddBabyVo;
 
 import java.util.List;
 

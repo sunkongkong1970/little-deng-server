@@ -1,7 +1,7 @@
 package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
-import org.deng.littledengserver.model.dto.CreateHomeVo;
+import org.deng.littledengserver.model.vo.CreateHomeVo;
 import org.deng.littledengserver.service.HomeService;
 import org.springframework.web.bind.annotation.*;
 

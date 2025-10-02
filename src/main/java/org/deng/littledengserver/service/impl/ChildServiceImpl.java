@@ -2,9 +2,9 @@ package org.deng.littledengserver.service.impl;
 
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
-import org.deng.littledengserver.model.dto.AddBabyVo;
 import org.deng.littledengserver.model.entity.ChildEntity;
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.model.vo.AddBabyVo;
 import org.deng.littledengserver.repository.ChildRepository;
 import org.deng.littledengserver.service.ChildService;
 import org.deng.littledengserver.service.UserService;

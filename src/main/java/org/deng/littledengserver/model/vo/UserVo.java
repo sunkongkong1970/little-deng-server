@@ -1,4 +1,4 @@
-package org.deng.littledengserver.model.dto;
+package org.deng.littledengserver.model.vo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

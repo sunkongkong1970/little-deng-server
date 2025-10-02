@@ -1,9 +1,10 @@
 package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
-import org.deng.littledengserver.model.dto.UserJoinHomeVo;
-import org.deng.littledengserver.model.dto.UserVo;
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.model.vo.UserEditVo;
+import org.deng.littledengserver.model.vo.UserJoinHomeVo;
+import org.deng.littledengserver.model.vo.UserVo;
 import org.deng.littledengserver.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,16 @@ public class UserController {
     @PostMapping("/joinHome")
     public BaseResult<String> updateUser(@RequestBody UserJoinHomeVo userJoinHomeVo) {
         return BaseResult.success(userService.userJoinHome(userJoinHomeVo));
+    }
+
+    @PostMapping("/avatar")
+    public BaseResult<String> avatar(@RequestParam("token") String token) {
+        return BaseResult.success(userService.getUserAvatar(token));
+    }
+
+    @PostMapping("/edit")
+    public BaseResult<String> edit(@RequestBody UserEditVo userEditVo) {
+        return BaseResult.success(userService.editUser(userEditVo));
     }
 
 }

@@ -2,9 +2,10 @@ package org.deng.littledengserver.service.impl;
 
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
-import org.deng.littledengserver.model.dto.UserJoinHomeVo;
-import org.deng.littledengserver.model.dto.UserVo;
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.model.vo.UserEditVo;
+import org.deng.littledengserver.model.vo.UserJoinHomeVo;
+import org.deng.littledengserver.model.vo.UserVo;
 import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.UserService;
 import org.deng.littledengserver.util.CacheUtil;
@@ -52,10 +53,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserVo getUserDtoByToken(String token) {
         UserEntity user  = getByToken(token);
-        UserVo userInfoDto = new UserVo();
-        BeanUtils.copyProperties(user, userInfoDto);
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(user, userVo);
 
-        return userInfoDto;
+        return userVo;
     }
 
     @Override
@@ -96,5 +97,30 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return CacheUtil.getTokenAndRenew(userJoinHomeVo.getToken());
+    }
+
+    @Override
+    public String getUserAvatar(String token) {
+        if (token == null || token.isEmpty()) {
+            throw new BusinessException(ErrorEnum.PARAM_ERROR);
+        }
+        UserEntity user = getByToken(token);
+
+        return user.getUserAvatarBase64();
+    }
+
+    @Override
+    public String editUser(UserEditVo userEditVo) {
+        if (userEditVo.getToken() == null || userEditVo.getToken().isEmpty()) {
+            throw new BusinessException(ErrorEnum.PARAM_ERROR);
+        }
+
+        UserEntity user = getByToken(userEditVo.getToken());
+
+        BeanUtils.copyProperties(userEditVo, user);
+
+        userRepository.save(user);
+
+        return CacheUtil.getTokenAndRenew(userEditVo.getToken());
     }
 }

@@ -1,8 +1,8 @@
 package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
-import org.deng.littledengserver.model.dto.AddBabyVo;
 import org.deng.littledengserver.model.entity.ChildEntity;
+import org.deng.littledengserver.model.vo.AddBabyVo;
 import org.deng.littledengserver.service.ChildService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

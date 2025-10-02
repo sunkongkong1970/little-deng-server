@@ -1,7 +1,7 @@
 package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
-import org.deng.littledengserver.model.dto.wechat.WeChatLoginResponse;
+import org.deng.littledengserver.model.vo.wechat.WeChatLoginResponse;
 import org.deng.littledengserver.service.WechatLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

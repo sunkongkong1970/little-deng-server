@@ -1,22 +1,22 @@
 package org.deng.littledengserver.util;
 
 import com.alibaba.fastjson2.JSONObject;
-import javax.annotation.Resource;
-
 import com.alibaba.fastjson2.JSONReader;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
-import org.deng.littledengserver.model.dto.wechat.WechatLoginResult;
+import org.deng.littledengserver.model.vo.wechat.WechatLoginResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.AlgorithmParameters;
 import java.security.Security;
 import java.util.Base64;
@@ -109,7 +109,7 @@ public class WeChatUtil {
             cipher.init(Cipher.DECRYPT_MODE, keySpec, params);
             byte[] result = cipher.doFinal(encryptedDataBytes);
 
-            return new String(result, "UTF-8");
+            return new String(result, StandardCharsets.UTF_8);
         } catch (Exception e) {
             log.info("数据解密失败: {}", e.getMessage());
             throw new RuntimeException("数据解密失败: " + e.getMessage(), e);

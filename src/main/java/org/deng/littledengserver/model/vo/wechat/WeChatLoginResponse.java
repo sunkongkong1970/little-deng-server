@@ -1,4 +1,4 @@
-package org.deng.littledengserver.model.dto.wechat;
+package org.deng.littledengserver.model.vo.wechat;
 
 import lombok.Data;
 

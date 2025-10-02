@@ -1,6 +1,6 @@
 package org.deng.littledengserver.service;
 
-import org.deng.littledengserver.model.dto.CreatePhotoWallVo;
+import org.deng.littledengserver.model.vo.CreatePhotoWallVo;
 
 public interface PhotoWallService {
     /**

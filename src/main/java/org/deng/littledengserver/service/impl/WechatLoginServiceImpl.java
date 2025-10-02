@@ -1,14 +1,11 @@
 package org.deng.littledengserver.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
-
-import javax.annotation.Resource;
-
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
-import org.deng.littledengserver.model.dto.wechat.WeChatLoginResponse;
-import org.deng.littledengserver.model.dto.wechat.WechatLoginResult;
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.model.vo.wechat.WeChatLoginResponse;
+import org.deng.littledengserver.model.vo.wechat.WechatLoginResult;
 import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.UserService;
 import org.deng.littledengserver.service.WechatLoginService;
@@ -16,6 +13,8 @@ import org.deng.littledengserver.util.CacheUtil;
 import org.deng.littledengserver.util.WeChatUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 @Service
 public class WechatLoginServiceImpl implements WechatLoginService {
