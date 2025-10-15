@@ -13,9 +13,9 @@ public class HomeController {
     @Resource
     HomeService homeService;
 
-    @GetMapping("/generateCode")
-    public BaseResult<String> generateHomeCode(@RequestParam("token") String token){
-        return BaseResult.success(homeService.generateHomeCode(token));
+    @GetMapping("/getHomeCode")
+    public BaseResult<String> getHomeCode(@RequestParam("token") String token) {
+        return BaseResult.success(homeService.getHomeCode(token));
     }
 
     @PostMapping("/createHome")

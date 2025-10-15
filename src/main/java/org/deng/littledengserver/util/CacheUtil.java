@@ -9,31 +9,39 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class CacheUtil {
+    private static final int tokenDays = 7;
+    private static final int homeCodeDays = tokenDays - 1;
+    private static final int sessionHours = 2;
+
     // 初始化Caffeine缓存，设置2小时过期
     private static final Cache<String, String> tokenCache = Caffeine.newBuilder()
             .maximumSize(10000)  // 最大缓存数量
-            .expireAfterWrite(7, TimeUnit.DAYS)  // 7天过期
+            .expireAfterWrite(tokenDays, TimeUnit.DAYS)  // 7天过期
             .build();
 
     private static final Cache<String, String> sessionCache = Caffeine.newBuilder()
             .maximumSize(10000)  // 最大缓存数量
-            .expireAfterWrite(2, TimeUnit.HOURS)  // 2小时过期
+            .expireAfterWrite(sessionHours, TimeUnit.HOURS)  // 2小时过期
             .build();
 
     private static final Cache<String, String> homeCodeCache = Caffeine.newBuilder()
             .maximumSize(10000)  // 最大缓存数量
-            .expireAfterWrite(7, TimeUnit.DAYS)  // 7天过期
+            .expireAfterWrite(homeCodeDays, TimeUnit.DAYS)  // 7天过期
             .build();
 
     private static final Cache<String, Long> homeIdCache = Caffeine.newBuilder()
             .maximumSize(10000)  // 最大缓存数量
-            .expireAfterWrite(7, TimeUnit.DAYS)  // 7天过期
+            .expireAfterWrite(homeCodeDays, TimeUnit.DAYS)  // 7天过期
             .build();
 
-    public static String generateHomeCode(String token) {
-        String homeCode = UUID.randomUUID().toString().split("-")[0];
-        homeCodeCache.put(token, homeCode);
+    public static String getUserHomeCode(String token) {
+        return homeCodeCache.getIfPresent(token);
+    }
 
+    public static String generateHomeCode(Long homeId, String token) {
+        String homeCode = UUID.randomUUID().toString().split("-")[0];
+        homeIdCache.put(homeCode, homeId);
+        homeCodeCache.put(token, homeCode);
         return homeCode;
     }
 

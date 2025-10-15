@@ -15,5 +15,7 @@ public class CreateHomeVo {
 
     private String homeName;
 
-    private String avatarBase64;
+    private String userAvatarBase64;
+
+    private String userAvatarUrl;
 }

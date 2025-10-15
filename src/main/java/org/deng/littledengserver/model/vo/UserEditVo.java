@@ -11,4 +11,6 @@ public class UserEditVo {
     private String userRole;
 
     private String userAvatarBase64;
+
+    private String userAvatarUrl;
 }

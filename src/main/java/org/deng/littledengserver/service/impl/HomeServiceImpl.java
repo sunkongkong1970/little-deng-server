@@ -1,5 +1,6 @@
 package org.deng.littledengserver.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
 import org.deng.littledengserver.model.entity.HomeEntity;
@@ -10,6 +11,7 @@ import org.deng.littledengserver.repository.UserRepository;
 import org.deng.littledengserver.service.HomeService;
 import org.deng.littledengserver.service.UserService;
 import org.deng.littledengserver.util.CacheUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,14 +26,19 @@ public class HomeServiceImpl implements HomeService {
     UserRepository userRepository;
 
     @Override
-    public String generateHomeCode(String token) {
+    public String getHomeCode(String token) {
         UserEntity user = userService.getByToken(token);
 
         if (!user.getIsHouseholder()){
             throw new BusinessException(ErrorEnum.USER_PERMISSION_DENIED);
         }
 
-        return CacheUtil.generateHomeCode(token);
+        String code = CacheUtil.getUserHomeCode(token);
+        if (StringUtils.isNotBlank(code)) {
+            return code;
+        }
+
+        return CacheUtil.generateHomeCode(user.getHomeId(), token);
     }
 
     @Override
@@ -43,11 +50,10 @@ public class HomeServiceImpl implements HomeService {
 
         Long homeId = homeRepository.save(homeEntity).getId();
 
+        BeanUtils.copyProperties(createHomeVo, user);
         user.setHomeId(homeId);
         user.setIsHouseholder(true);
-        user.setUserName(createHomeVo.getUserName());
-        user.setUserRole(createHomeVo.getUserRole());
-        user.setUserAvatarBase64(createHomeVo.getAvatarBase64());
+
         userRepository.save(user);
 
         return homeId;

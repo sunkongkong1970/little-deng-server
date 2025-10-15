@@ -1,10 +1,11 @@
 package org.deng.littledengserver.model.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 
 @Entity
@@ -26,6 +27,9 @@ public class UserEntity extends BaseEntity{
 
     @Column(columnDefinition = "TEXT")
     private String userAvatarBase64 ;
+
+    @Column(length = 255)
+    private String userAvatarUrl;
 
     @Column(length = 255)
     private String userRole ;
