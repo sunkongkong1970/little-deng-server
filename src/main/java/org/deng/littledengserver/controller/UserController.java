@@ -2,6 +2,7 @@ package org.deng.littledengserver.controller;
 
 import org.deng.littledengserver.config.BaseResult;
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.model.vo.AvatarVo;
 import org.deng.littledengserver.model.vo.UserEditVo;
 import org.deng.littledengserver.model.vo.UserJoinHomeVo;
 import org.deng.littledengserver.model.vo.UserVo;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/avatar")
-    public BaseResult<String> avatar(@RequestParam("token") String token) {
+    public BaseResult<AvatarVo> avatar(@RequestParam("token") String token) {
         return BaseResult.success(userService.getUserAvatar(token));
     }
 

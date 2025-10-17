@@ -3,6 +3,7 @@ package org.deng.littledengserver.service.impl;
 import org.deng.littledengserver.config.BusinessException;
 import org.deng.littledengserver.constant.ErrorEnum;
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.model.vo.AvatarVo;
 import org.deng.littledengserver.model.vo.UserEditVo;
 import org.deng.littledengserver.model.vo.UserJoinHomeVo;
 import org.deng.littledengserver.model.vo.UserVo;
@@ -99,13 +100,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getUserAvatar(String token) {
+    public AvatarVo getUserAvatar(String token) {
         if (token == null || token.isEmpty()) {
             throw new BusinessException(ErrorEnum.PARAM_ERROR);
         }
         UserEntity user = getByToken(token);
-
-        return user.getUserAvatarBase64();
+        AvatarVo avatarVo = new AvatarVo();
+        BeanUtils.copyProperties(user, avatarVo);
+        return avatarVo;
     }
 
     @Override

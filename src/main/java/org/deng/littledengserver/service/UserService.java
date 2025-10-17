@@ -1,6 +1,7 @@
 package org.deng.littledengserver.service;
 
 import org.deng.littledengserver.model.entity.UserEntity;
+import org.deng.littledengserver.model.vo.AvatarVo;
 import org.deng.littledengserver.model.vo.UserEditVo;
 import org.deng.littledengserver.model.vo.UserJoinHomeVo;
 import org.deng.littledengserver.model.vo.UserVo;
@@ -18,7 +19,7 @@ public interface UserService {
 
     String userJoinHome(UserJoinHomeVo userJoinHomeVo);
 
-    String getUserAvatar(String token);
+    AvatarVo getUserAvatar(String token);
 
     String editUser(UserEditVo userEditVo);
 }

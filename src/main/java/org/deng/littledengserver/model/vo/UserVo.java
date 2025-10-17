@@ -19,4 +19,8 @@ public class UserVo extends DictTranslatable {
     private Boolean isHouseholder;
 
     private Long homeId;
+
+    private String userAvatarBase64;
+
+    private String userAvatarUrl;
 }
